@@ -25,7 +25,7 @@ def img_convert_to_show(img):
     return x
 
 # defining function for getting the activations of our decided layers
-def get_activations_from_model(input, model):
+def get_activations_from_model(input, model, label):
     layers_style = {
     '0' : 'conv1_1',
     '5' : 'conv2_1',
@@ -41,15 +41,20 @@ def get_activations_from_model(input, model):
     features_content = {}
     features_sytle = {}
     x = input
-    for name, layer in model._modules.items():
-        x = layer(x)
-        if(name in layers_style):
-            features_sytle[layers_style[name]] = x
-        if(name in layers_content):
-            print(layer)
-            features_content[layers_content[name]] = x
 
-    return features_content, features_sytle
+    if(label == "content"):
+        for name, layer in model._modules.items():
+            x = layer(x)
+            if(name == '21'):
+                features_content[layers_content[name]] = x
+        return features_content
+
+    if(label == "style"):
+        for name, layer in model._modules.items():
+            x = layer(x)
+            if(name in layers_style):
+                features_sytle[layers_style[name]] = x
+        return features_sytle
 
 
 
@@ -83,9 +88,6 @@ ax2.imshow(img_convert_to_show(style),label = "Style")
 
 
 #get activations for content loss and style loss of both content and style images
-cimg_activation_for_content_loss, cimg_activation_for_style_loss = get_activations_from_model(content, model)
-simg_activation_for_content_loss, simg_activation_for_style_loss = get_activations_from_model(style, model)
-
-print(cimg_activation_for_style_loss['conv1_1'].shape)
-print(simg_activation_for_style_loss['conv1_1'].shape)
+content_image_activation = get_activations_from_model(content, model, "content")
+style_image_activations = get_activations_from_model(style, model, "style")
 
