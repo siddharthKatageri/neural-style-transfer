@@ -7,7 +7,7 @@ where style from one image and content from another image is drawn out to genera
 
 Neural Style Transfer is one of the most fun techniques in deep learning. As seen below, it merges two images, namely: a "content" image and a "style" image, to create a "generated" image.
 
-<img src="./images/problem.png" width=500>
+<img src="./images/problem.PNG" width=500>
 
 
 
