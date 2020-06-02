@@ -40,18 +40,23 @@ gradients
 
 
 ## Results
+
+### Andrej Karpathy
 <p align="center">
 <img src="./output/andrej/andrej2_500.png" width=500>
 </p>
 
+### Dancing doll
 <p align="center">
 <img src="./output/dance/style2_1000.png" width=500>
 </p>
 
+### George Hotz
 <p align="center">
 <img src="./output/hotz/hotz_oil_500.png" width=500>
 </p>
 
+### Lamborgini
 <p align="center">
 <img src="./output/lambo/lambo_style2_500.png" width=500>
 </p>
