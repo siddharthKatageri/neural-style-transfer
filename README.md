@@ -41,6 +41,17 @@ gradients
 
 ## Results
 <p align="center">
-<img src="./output/andrej/andrej2.jpg" width=500>
+<img src="./output/andrej/andrej2_500.jpg" width=500>
 </p>
 
+<p align="center">
+<img src="./output/dance/style2_1000.jpg" width=500>
+</p>
+
+<p align="center">
+<img src="./output/hotz/hotz_oil_500.jpg" width=500>
+</p>
+
+<p align="center">
+<img src="./output/lambo/lambo_style2_500.jpg" width=500>
+</p>
