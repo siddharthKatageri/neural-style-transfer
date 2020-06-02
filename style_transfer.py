@@ -1,5 +1,5 @@
 import torch
-import numpy
+import numpy as np
 from torchvision import transforms, models
 from PIL import Image
 import matplotlib.pyplot as plt
@@ -20,7 +20,7 @@ def img_convert_to_show(img):
     x = img.cpu().clone().detach().numpy()
     x = x.squeeze(0)            #converts image shape from (1, c, w, h)->(c, w, h)
     x = x.transpose(1,2,0)      # converts image shape from (c, w, h)->(w, h, c)
-    x = x * (0.229, 0.224, 0.225) + (0.485, 0.456, 0.406)
+    x = x * np.array((0.229, 0.224, 0.225)) + np.array((0.485, 0.456, 0.406))
     #x = x * (0.5,0.5,0.5) + (0.5,0.5,0.5)
     return x
 
@@ -100,7 +100,7 @@ model.to(device)
 #defined transforms
 transform = transforms.Compose([transforms.Resize(300),
                                 transforms.ToTensor(),
-                                transforms.Normalize((0.485, 0.456, 0.406),(0.229, 0.224, 0.225))
+                                transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
                                 #transforms.Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))
                                 ])
 
@@ -131,7 +131,7 @@ target = content.clone().requires_grad_(True).to(device)
 #gram matrix for all the layers for style loss
 grams_for_style = {layer:gram_matrix(style_image_activations[layer]) for layer in style_image_activations}
 
-
+'''
 style_weights = {
                 "conv1_1" : 0.2,
                  "conv2_1" : 0.2,
@@ -139,13 +139,21 @@ style_weights = {
                  "conv4_1" : 0.2,
                  "conv5_1" : 0.2
                 }
+'''
+style_weights = {
+                "conv1_1" : 0.8,
+                 "conv2_1" : 0.1,
+                 "conv3_1" : 0.4,
+                 "conv4_1" : 0.2,
+                 "conv5_1" : 0.1
+                }
 
-alpha = 10
-beta = 50
+alpha = 100
+beta = 1e8
 
-epochs = 400
+epochs = 1000
 
-optimizer = torch.optim.Adam([target], lr=0.01)
+optimizer = torch.optim.Adam([target], lr=0.1)
 
 for i in range(1, epochs+1):
     target_image_activation_for_content, target_image_activation_for_style = get_activations_from_model(target, model, "target")
@@ -153,7 +161,8 @@ for i in range(1, epochs+1):
 
     s_loss = 0
     for layer in style_weights:
-        s_loss += compute_style_loss(grams_for_style[layer], target_image_activation_for_style[layer])
+        take = compute_style_loss(grams_for_style[layer], target_image_activation_for_style[layer])
+        s_loss += take
 
     total_loss = alpha*c_loss + beta*s_loss
 
@@ -166,7 +175,7 @@ for i in range(1, epochs+1):
 
     if i%10 == 0:
         print("Epoch:", i, ":", total_loss)
-    if i%50 == 0:
+    if i%500 == 0:
         plt.imsave('./output/1/'+str(i)+'.png',img_convert_to_show(target),format='png')
 '''
 # get activations for target image
