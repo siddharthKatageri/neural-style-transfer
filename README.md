@@ -43,17 +43,17 @@ gradients
 
 ### Andrej Karpathy
 <p align="center">
-<img src="./output/andrej/andrej2_500.png" width=500>
+<img src="./output/andrej/andrej2_500.png" width=400>
 </p>
 
 ### Dancing doll
 <p align="center">
-<img src="./output/dance/style2_1000.png" width=500>
+<img src="./output/dance/style2_1000.png" width=400>
 </p>
 
 ### George Hotz
 <p align="center">
-<img src="./output/hotz/hotz_oil_500.png" width=500>
+<img src="./output/hotz/hotz_oil_500.png" width=400>
 </p>
 
 ### Lamborgini
